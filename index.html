@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bangalir Henshel</title>
+<style>
+body{font-family:Arial;margin:0;background:#f7f3ed}.head{background:#222;color:white;text-align:center;padding:18px}
+.menu{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:20px}.card{background:white;border-radius:12px;overflow:hidden;padding-bottom:14px;text-align:center}
+.card img{width:100%;height:180px;object-fit:cover}.price{font-weight:bold;margin:8px}
+button{padding:10px 14px;border:0;border-radius:8px;cursor:pointer}.add{background:#e6a900}
+.cart{position:fixed;right:15px;bottom:15px;background:#111;color:#fff}.box{display:none;position:fixed;right:15px;bottom:65px;width:340px;max-width:90%;background:#fff;color:#222;padding:16px;border-radius:12px;box-shadow:0 5px 25px #0005}
+.open{display:block}.row{display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding:8px 0}
+input,textarea{width:100%;box-sizing:border-box;padding:9px;margin:5px 0}.wa{background:#25D366;color:#fff;width:100%}
+</style></head>
+<body>
+<div class="head"><h1>Bangalir Henshel</h1><div>Starter + Combo • Online Order</div></div>
+<div class="menu">
+<div class="card"><img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=800&q=80"><h3>Chicken Lollipop</h3><div class="price">₹180</div><button class="add" onclick="add('Chicken Lollipop',180)">ADD TO CART</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?auto=format&fit=crop&w=800&q=80"><h3>Chicken Pakora</h3><div class="price">₹150</div><button class="add" onclick="add('Chicken Pakora',150)">ADD TO CART</button></div>
+<div class="card"><img src="https://images.unsplash.com/photo-1608039755401-742486ecb5e6?auto=format&fit=crop&w=800&q=80"><h3>Chicken Drumstick</h3><div class="price">₹160</div><button class="add" onclick="add('Chicken Drumstick',160)">ADD TO CART</button></div>
+</div>
+<button class="cart" onclick="document.getElementById('box').classList.toggle('open')">🛒 Cart (<span id="count">0</span>)</button>
+<div id="box" class="box"><h2>Your Cart</h2><div id="items"></div><h3>Total: ₹<span id="total">0</span></h3>
+<input id="name" placeholder="Customer name"><input id="phone" placeholder="Phone number"><textarea id="address" placeholder="Delivery address"></textarea>
+<button class="wa" onclick="order()">ORDER ON WHATSAPP</button></div>
+<script>
+let cart=[];
+function add(n,p){let x=cart.find(a=>a.n===n);x?x.q++:cart.push({n,p,q:1});render();document.getElementById('box').classList.add('open')}
+function change(i,d){cart[i].q+=d;if(cart[i].q<1)cart.splice(i,1);render()}
+function render(){let s='',t=0,c=0;cart.forEach((x,i)=>{t+=x.p*x.q;c+=x.q;s+=`<div class="row"><span>${x.n} × ${x.q}</span><span><button onclick="change(${i},-1)">−</button><button onclick="change(${i},1)">+</button></span></div>`});document.getElementById('items').innerHTML=s;document.getElementById('total').textContent=t;document.getElementById('count').textContent=c}
+function order(){if(!cart.length)return alert('Cart is empty');let n=document.getElementById('name').value,p=document.getElementById('phone').value,a=document.getElementById('address').value;if(!n||!p||!a)return alert('Fill name, phone and address');let t=cart.reduce((s,x)=>s+x.p*x.q,0),m='New Order - Bangalir Henshel\n\n'+cart.map(x=>x.n+' x '+x.q+' = ₹'+x.p*x.q).join('\n')+'\n\nTotal: ₹'+t+'\nName: '+n+'\nPhone: '+p+'\nAddress: '+a;let number='91XXXXXXXXXX';window.open('https://wa.me/'+number+'?text='+encodeURIComponent(m),'_blank')}
+render();
+</script></body></html>
